@@ -7,6 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup",
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:prettier",
     "lintfix": "prettier --write --list-different ."
@@ -24,6 +25,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1",
+    "push-dir": "^0.4.1",
     "sass": "^1.48.0",
     "sass-loader": "10"
   }

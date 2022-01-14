@@ -1,9 +1,10 @@
 $primary: #efae04;
 $body-overflow-y: auto;
+$input-disabled-background-color: hsl(0, 0%, 100%);
+$input-disabled-border-color: hsl(0, 0%, 86%);
 
 // Import bulma styles
-@import "~bulma";
+@import '~bulma';
 
 // Import buefy styles
-@import "~buefy/src/scss/buefy";
-
+@import '~buefy/src/scss/buefy';
