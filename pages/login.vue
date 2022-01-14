@@ -40,7 +40,7 @@ export default {
     changeName: function (newName) {
       this.submitMessage = ''
 
-      this.$store.commit('login/changeName', newName)
+      this.$store.commit('login/changeName', newName.toLowerCase())
     },
     validate: function () {
       document.getElementById('submitButton').classList.add('is-loading')
