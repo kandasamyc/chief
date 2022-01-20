@@ -1,14 +1,34 @@
 <template>
-  <b-navbar type="is-dark" :fixed-top=true :centered=true>
+  <b-navbar type="is-dark" :fixed-top="true" :centered="true">
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <strong>Chief</strong>
       </b-navbar-item>
     </template>
     <template #start>
-      <b-navbar-item v-for="(item, key) of items" :key="key" tag="div">
-        <NuxtLink :to="item.to" class="has-text-primary has-text-weight-medium">
-          {{ item.title }}
+      <b-navbar-item tag="div">
+        <NuxtLink to="/" class="has-text-primary has-text-weight-medium">
+          Dashboard
+        </NuxtLink>
+      </b-navbar-item>
+      <b-navbar-item tag="div">
+        <NuxtLink to="/form" class="has-text-primary has-text-weight-medium">
+          Form
+        </NuxtLink>
+      </b-navbar-item>
+      <b-navbar-item tag="div">
+        <NuxtLink to="/match/" class="has-text-primary has-text-weight-medium">
+          Matches
+        </NuxtLink>
+      </b-navbar-item>
+      <b-navbar-item tag="div">
+        <NuxtLink to="/team/" class="has-text-primary has-text-weight-medium">
+          Teams
+        </NuxtLink>
+      </b-navbar-item>
+      <b-navbar-item tag="div">
+        <NuxtLink to="/scouts" class="has-text-primary has-text-weight-medium">
+          Scouts
         </NuxtLink>
       </b-navbar-item>
     </template>
@@ -40,11 +60,11 @@ export default {
         },
         {
           title: 'Teams',
-          to: { name: 'team' },
+          to: { name: 'match/_key' },
         },
         {
           title: 'Match',
-          to: { name: 'match' },
+          to: { name: 'team/_id' },
         },
         {
           title: 'Scouts',
