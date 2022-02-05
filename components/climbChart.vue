@@ -1,8 +1,8 @@
 <template>
   <div class="my-5">
-    <p class="has-text-centered is-size-5">Accuracy Metrics</p>
+    <p class="has-text-centered is-size-5">Climb Metrics</p>
     <div class="chart-container mb-2" style="position: relative; height: 40vh">
-      <canvas id="accuracy-chart"></canvas>
+      <canvas id="climb-chart"></canvas>
     </div>
   </div>
 </template>
@@ -11,11 +11,11 @@
 import Chart from 'chart.js/auto'
 
 export default {
-  name: 'accuracyChart',
+  name: 'climbChart',
   props: ['team_data'],
   methods: {
     render: function () {
-      const ctx = document.getElementById('accuracy-chart')
+      const ctx = document.getElementById('climb-chart')
       this.chart = new Chart(ctx, this.chartConfig)
       this.getData()
     },
@@ -41,22 +41,22 @@ export default {
       }
 
       let red_data = Object.values(red_objs)
-        .map((a) => a.accuracy)
+        .map((a) => a.climb)
         .reduce(function (previousValue, currentValue) {
           return {
-            high: previousValue.high + currentValue.high,
-            low: previousValue.low + currentValue.low,
-            miss: previousValue.miss + currentValue.miss,
+            hang: previousValue.hang + currentValue.hang,
+            park: previousValue.park + currentValue.park,
+            no_climb: previousValue.no_climb + currentValue.no_climb,
           }
         })
 
       let blue_data = Object.values(blue_objs)
-        .map((a) => a.accuracy)
+        .map((a) => a.climb)
         .reduce(function (previousValue, currentValue) {
           return {
-            high: previousValue.high + currentValue.high,
-            low: previousValue.low + currentValue.low,
-            miss: previousValue.miss + currentValue.miss,
+            hang: previousValue.hang + currentValue.hang,
+            park: previousValue.park + currentValue.park,
+            no_climb: previousValue.no_climb + currentValue.no_climb,
           }
         })
 
@@ -68,7 +68,7 @@ export default {
             'rgb(255, 159, 64)',
             'rgb(255, 205, 86)',
           ],
-          data: [red_data.high / 3, red_data.low / 3, red_data.miss / 3],
+          data: [red_data.hang / 3, red_data.park / 3, red_data.no_climb / 3],
         },
         {
           label: 'Blue',
@@ -79,9 +79,9 @@ export default {
             'rgb(153, 102, 255)',
           ],
           data: [
-            blue_data.high / 3,
-            blue_data.low / 3,
-            blue_data.miss / 3,
+            blue_data.hang / 3,
+            blue_data.park / 3,
+            blue_data.no_climb / 3,
           ],
         },
       ]
@@ -98,12 +98,12 @@ export default {
         type: 'pie',
         data: {
           labels: [
-            'Red High',
-            'Red Low',
-            'Red Miss',
-            'Blue High',
-            'Blue Low',
-            'Blue Miss',
+            'Red Hang',
+            'Red Park',
+            'Red No Climb',
+            'Blue Hang',
+            'Blue Park',
+            'Blue No Climb',
           ],
           datasets: [],
         },
@@ -132,13 +132,16 @@ export default {
                     // The hidden state must match the dataset's hidden state
                     label.hidden = !chart.isDatasetVisible(label.datasetIndex)
 
-                    // Chighe the color to match the dataset
+                    // Change the color to match the dataset
                     label.fillStyle = datasetColors[label.index]
                   })
 
                   return labelsOriginal
                 },
                 sort: function (first, second, data) {
+                  console.log(first)
+                  console.log(second)
+                  console.log(data)
                   let fspl = first.text.split(' ')
                   let sspl = second.text.split(' ')
                   if (fspl[1].charAt(0) === sspl[1].charAt(0)) {
@@ -146,8 +149,8 @@ export default {
                   } else {
                     let order = {
                       H: 1,
-                      L: 2,
-                      M: 3,
+                      P: 2,
+                      N: 3,
                     }
                     return order[fspl[1].charAt(0)] - order[sspl[1].charAt(0)]
                   }
