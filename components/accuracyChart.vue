@@ -80,12 +80,10 @@ export default {
         },
       ]
 
-      console.log(datasets)
 
       this.chartConfig.datasets = datasets
       this.chart.data.datasets = datasets
       this.chart.update()
-      console.log(this.chart)
     },
   },
   data() {

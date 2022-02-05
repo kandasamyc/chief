@@ -57,12 +57,10 @@ export default {
 
         datasets.push(set)
       }
-      console.log(datasets)
       this.chartConfig.datasets = datasets
       this.chart.data.datasets = datasets
       this.chart.options.plugins.legend.labels.sort = labelSort
       this.chart.update()
-      console.log(this.chart)
     },
   },
   data() {

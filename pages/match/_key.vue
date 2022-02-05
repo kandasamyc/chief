@@ -324,7 +324,11 @@ export default {
       if (e != undefined) {
         if (this.$refs.oddsChart != undefined) this.$refs.oddsChart.getOdds()
         if (this.$refs.teleopChart != undefined) {
+          this.$refs.autoChart.getData()
           this.$refs.teleopChart.getData()
+          this.$refs.miscChart.getData()
+          this.$refs.zonesChart.getData()
+          this.$refs.accuracyChart.getData()
         }
 
         e.target.classList.remove('is-loading')

@@ -259,7 +259,6 @@ export default {
         final_climb_type: this.finalClimbType,
       }
 
-      console.log(data)
       document.getElementById('submitButton').classList.toggle('is-loading')
       document.getElementById('submitButton').classList.toggle('is-success')
     },
