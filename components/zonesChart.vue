@@ -1,8 +1,8 @@
 <template>
   <div class="my-5">
-    <p class="has-text-centered is-size-5">Teleop Metrics</p>
+    <p class="has-text-centered is-size-5">Zones Metrics</p>
     <div class="chart-container mb-2" style="position: relative; height: 40vh">
-      <canvas id="teleop-chart"></canvas>
+      <canvas id="zones-chart"></canvas>
     </div>
   </div>
 </template>
@@ -11,11 +11,11 @@
 import Chart from 'chart.js/auto'
 
 export default {
-  name: 'teleopChart',
+  name: 'zonesChart',
   props: ['team_data'],
   methods: {
     render: function () {
-      const ctx = document.getElementById('teleop-chart')
+      const ctx = document.getElementById('zones-chart')
       this.chart = new Chart(ctx, this.chartConfig)
       this.getData()
     },
@@ -31,14 +31,14 @@ export default {
 
       let datasets = []
       let red_colors = [
-        'rgb(255, 99, 132)',
-        'rgb(255, 159, 64)',
-        'rgb(255, 205, 86)',
+        'rgb(255, 99, 132, 0.4)',
+        'rgb(255, 159, 64, 0.4)',
+        'rgb(255, 205, 86, 0.4)',
       ]
       let blue_colors = [
-        'rgb(75, 192, 192)',
-        'rgb(52, 162, 235)',
-        'rgb(153, 102, 255)',
+        'rgb(75, 192, 192,0.4)',
+        'rgb(52, 162, 235, 0.4)',
+        'rgb(153, 102, 255, 0.4)',
       ]
       let red_index = 0
       let blue_index = 0
@@ -47,7 +47,7 @@ export default {
         let team_datum = this.team_data[team]
         let set = {
           label: team,
-          data: Object.values(team_datum.teleop) || [],
+          data: Object.values(team_datum.zones) || [],
           backgroundColor:
             team_datum.alliance === 'red'
               ? red_colors[red_index++]
@@ -69,9 +69,9 @@ export default {
     return {
       chart: null,
       chartConfig: {
-        type: 'bar',
+        type: 'radar',
         data: {
-          labels: ['Low Goal', 'High Goal', 'Misses'],
+          labels: ['Far Trench', 'Initiation Line', 'Near Trench', 'Rendezvous Point', 'Target Zone'],
           datasets: [],
         },
         options: {
@@ -79,7 +79,7 @@ export default {
           plugins: {
             title: {
               display: false,
-              text: 'Teleop Metrics',
+              text: 'zones Metrics',
             },
             legend: {
               labels: {
@@ -90,14 +90,6 @@ export default {
           responsive: true,
           interaction: {
             intersect: false,
-          },
-          scales: {
-            x: {
-              stacked: true,
-            },
-            y: {
-              stacked: true,
-            },
           },
         },
       },

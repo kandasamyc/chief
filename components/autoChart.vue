@@ -1,8 +1,8 @@
 <template>
   <div class="my-5">
-    <p class="has-text-centered is-size-5">Teleop Metrics</p>
+    <p class="has-text-centered is-size-5">Auto Metrics</p>
     <div class="chart-container mb-2" style="position: relative; height: 40vh">
-      <canvas id="teleop-chart"></canvas>
+      <canvas id="auto-chart"></canvas>
     </div>
   </div>
 </template>
@@ -11,11 +11,11 @@
 import Chart from 'chart.js/auto'
 
 export default {
-  name: 'teleopChart',
+  name: 'autoChart',
   props: ['team_data'],
   methods: {
     render: function () {
-      const ctx = document.getElementById('teleop-chart')
+      const ctx = document.getElementById('auto-chart')
       this.chart = new Chart(ctx, this.chartConfig)
       this.getData()
     },
@@ -47,7 +47,7 @@ export default {
         let team_datum = this.team_data[team]
         let set = {
           label: team,
-          data: Object.values(team_datum.teleop) || [],
+          data: Object.values(team_datum.auto) || [],
           backgroundColor:
             team_datum.alliance === 'red'
               ? red_colors[red_index++]
@@ -79,7 +79,7 @@ export default {
           plugins: {
             title: {
               display: false,
-              text: 'Teleop Metrics',
+              text: 'auto Metrics',
             },
             legend: {
               labels: {
