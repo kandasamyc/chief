@@ -1,12 +1,12 @@
 <template>
   <div class="box flex">
     <b-field class="container" custom-class="container" :label="message">
-        <b-select required v-model="selectedOption">
-            <option v-for="option in options" :value="option" :key="option">{{option}}</option>
-        </b-select>
-        <b-button tag="nuxt-link" v-bind:to="selectedOption">
-            Go
-        </b-button>
+      <b-select required v-model="selectedOption">
+        <option v-for="option in options" :value="option" :key="option">
+          {{ option }}
+        </option>
+      </b-select>
+      <b-button tag="nuxt-link" v-bind:to="selectedOption"> Go </b-button>
     </b-field>
   </div>
 </template>
@@ -18,12 +18,13 @@ export default {
       selectedOption: '',
     }
   },
-  props: ['options','message'],
+  props: ['options', 'message'],
 }
 </script>
 
 <style scoped>
-.field, .field >>> label {
-    width: fit-content;
+.field,
+.field >>> label {
+  width: fit-content;
 }
 </style>

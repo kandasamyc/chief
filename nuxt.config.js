@@ -5,7 +5,7 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   router: {
-    base: '/chief/'
+    base: '/chief/',
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -21,9 +21,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    "@/assets/css/main.scss",
-  ],
+  css: ['@/assets/css/main.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -47,7 +45,9 @@ export default {
     manifest: {
       lang: 'en',
     },
-    preCaching: ["https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css"],
+    preCaching: [
+      'https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css',
+    ],
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

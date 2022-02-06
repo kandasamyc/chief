@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbar/>
+    <navbar />
 
     <section class="section">
       <div class="container is-column">

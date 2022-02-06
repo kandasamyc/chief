@@ -1,7 +1,7 @@
 <template>
-  <div class="my-5">
+  <div>
     <p class="has-text-centered is-size-5">Zones Metrics</p>
-    <div class="chart-container mb-2" style="position: relative; height: 40vh">
+    <div class="chart-container mb-2" style="position: relative; width: 100%">
       <canvas id="zones-chart"></canvas>
     </div>
   </div>
@@ -20,12 +20,12 @@ export default {
       this.getData()
     },
     getData: function () {
-      let red_alliance = Object.keys(this.team_data).filter( key => this.team_data[key].alliance === "red")
+      let red_alliance = Object.keys(this.team_data).filter(
+        (key) => this.team_data[key].alliance === 'red'
+      )
       const labelSort = function (start, end, data) {
-        let start_alliance =
-          red_alliance.indexOf(start.text) != -1 ? 1 : 0
-        let end_alliance =
-          red_alliance.indexOf(end.text) != -1 ? 1 : 0
+        let start_alliance = red_alliance.indexOf(start.text) != -1 ? 1 : 0
+        let end_alliance = red_alliance.indexOf(end.text) != -1 ? 1 : 0
         return end_alliance - start_alliance
       }
 
@@ -69,7 +69,13 @@ export default {
       chartConfig: {
         type: 'radar',
         data: {
-          labels: ['Far Trench', 'Initiation Line', 'Near Trench', 'Rendezvous Point', 'Target Zone'],
+          labels: [
+            'Far Trench',
+            'Initiation Line',
+            'Near Trench',
+            'Rendezvous Point',
+            'Target Zone',
+          ],
           datasets: [],
         },
         options: {
@@ -82,6 +88,21 @@ export default {
             legend: {
               labels: {
                 sort: null,
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  console.log(context)
+                  let tooltip =
+                    context.dataset.label + ' ' + context.label + ': '
+                  tooltip += (
+                    context.dataset.data[context.dataIndex] * 100
+                  ).toFixed(1)
+                  tooltip += '%'
+
+                  return tooltip
+                },
               },
             },
           },

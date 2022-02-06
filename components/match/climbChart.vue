@@ -1,7 +1,7 @@
 <template>
-  <div class="my-5">
+  <div>
     <p class="has-text-centered is-size-5">Climb Metrics</p>
-    <div class="chart-container mb-2" style="position: relative; height: 40vh">
+    <div class="chart-container mb-2" style="position: relative; width: 100%">
       <canvas id="climb-chart"></canvas>
     </div>
   </div>
@@ -139,9 +139,6 @@ export default {
                   return labelsOriginal
                 },
                 sort: function (first, second, data) {
-                  console.log(first)
-                  console.log(second)
-                  console.log(data)
                   let fspl = first.text.split(' ')
                   let sspl = second.text.split(' ')
                   if (fspl[1].charAt(0) === sspl[1].charAt(0)) {
@@ -168,11 +165,14 @@ export default {
                 label: function (context) {
                   const labelIndex =
                     context.datasetIndex * 3 + context.dataIndex
-                  return (
-                    context.chart.data.labels[labelIndex] +
-                    ': ' +
-                    context.formattedValue
-                  )
+
+                  let tooltip = context.chart.data.labels[labelIndex] + ': '
+                  tooltip += (
+                    context.dataset.data[context.dataIndex] * 100
+                  ).toFixed(1)
+                  tooltip += '%'
+
+                  return tooltip
                 },
               },
             },

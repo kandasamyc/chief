@@ -6,7 +6,7 @@ export const state = () => ({
 export const mutations = {
   changeName(state, newName) {
     state.name = newName
-    state.validity = false;
+    state.validity = false
   },
   remove(state) {
     state.name = ''

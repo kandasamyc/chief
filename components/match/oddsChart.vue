@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2">
+  <div>
     <canvas id="odds-chart"></canvas>
   </div>
 </template>
@@ -9,9 +9,10 @@ import Chart from 'chart.js/auto'
 
 export default {
   name: 'OddsChart',
+  props: ['predictions'],
   methods: {
     getOdds: function () {
-      this.oddsChartData.data.datasets[0].data = [0.7, 0.3]
+      this.oddsChartData.data.datasets[0].data = this.predictions
       this.chart.update()
     },
   },
@@ -34,20 +35,16 @@ export default {
           ],
         },
         options: {
-          tooltips: {
-            enabled: true,
-            callbacks: {
-              label: function (context) {
-                let tooltip = ''
-                if (context.index === 0) {
-                  tooltip += 'Red: '
-                } else {
-                  tooltip += 'Blue:'
-                }
-
-                tooltip += this._data.datasets[0].data[context.index] * 100
-                tooltip += '%'
-                return tooltip
+          plugins: {
+            tooltip: {
+              enabled: true,
+              callbacks: {
+                label: function (context) {
+                  let tooltip = context.label + ": "
+                  tooltip += (context.dataset.data[context.dataIndex] * 100).toFixed(1)
+                  tooltip += '%'
+                  return tooltip
+                },
               },
             },
           },

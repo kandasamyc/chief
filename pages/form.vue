@@ -2,7 +2,11 @@
   <form v-on:submit.prevent="submit">
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Info</p>
-      <b-field v-bind:type="validityClass" v-bind:message="validityMessage" label="Scout ID">
+      <b-field
+        v-bind:type="validityClass"
+        v-bind:message="validityMessage"
+        label="Scout ID"
+      >
         <b-input v-bind:value="name" disabled required></b-input>
       </b-field>
       <b-field label="Match Key" grouped>

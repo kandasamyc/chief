@@ -23,8 +23,7 @@
 
 <script>
 export default {
-  mounted(){
-  },
+  mounted() {},
   computed: {
     name() {
       return this.$store.state.login.name

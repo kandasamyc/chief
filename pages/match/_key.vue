@@ -85,27 +85,88 @@
       </table>
       <div>
         <p class="has-text-centered has-size-5 mb-2">Predictions</p>
-        <OddsChart ref="oddsChart" />
+        <OddsChart :predictions="currMatchData.predictions" ref="oddsChart" />
       </div>
     </div>
-    <div v-else-if="this.$route.params.key" class="box">
-      <AutoChart :team_data="currMatch.team_metrics" ref="autoChart" />
-      <TeleopChart :team_data="currMatch.team_metrics" ref="teleopChart" />
-      <MiscChart :team_data="currMatch.team_metrics" ref="miscChart" />
-      <ZonesChart :team_data="currMatch.team_metrics" ref="zonesChart" />
-      <ClimbChart :team_data="currMatch.team_metrics" ref="climbChart" />
-      <AccuracyChart :team_data="currMatch.team_metrics" ref="accuracyChart" />
-    </div>
+    <template v-else-if="this.$route.params.key">
+      <div class="box">
+        <AutoChart
+          class="mt-2"
+          :team_data="currMatch.team_metrics"
+          ref="autoChart"
+        />
+        <TeleopChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="teleopChart"
+        />
+        <MiscChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="miscChart"
+        />
+        <ZonesChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="zonesChart"
+        />
+        <ClimbChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="climbChart"
+        />
+        <AccuracyChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="accuracyChart"
+        />
+      </div>
+      <div class="box">
+        <p class="has-text-centered mb-3 is-size-4">Make Prediction</p>
+        <b-field>
+          <b-radio-button
+            required
+            expanded
+            v-model="prediction"
+            native-value="Red"
+            type="is-danger is-light is-outlined"
+          >
+            <span>Red</span>
+          </b-radio-button>
+
+          <b-radio-button
+            required
+            expanded
+            v-model="prediction"
+            native-value="Blue"
+            type="is-info is-light is-outlined"
+          >
+            <span>Blue</span>
+          </b-radio-button>
+        </b-field>
+        <b-field :message="validityMessage">
+          <b-button
+            v-bind:disabled="!this.$store.state.login.validity"
+            @click="submitPrediction"
+            class="is-success is-light is-outlined"
+            expanded
+            >Submit</b-button
+          >
+        </b-field>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import Navigator from '../../components/Navigator.vue'
-import OddsChart from '../../components/oddsChart.vue'
-import TeleopChart from '../../components/teleopChart.vue'
-import AutoChart from '../../components/autoChart.vue'
-import MiscChart from '../../components/miscChart.vue'
-import ZonesChart from '../../components/zonesChart.vue'
+import OddsChart from '../../components/match/oddsChart.vue'
+import TeleopChart from '../../components/match/teleopChart.vue'
+import AutoChart from '../../components/match/autoChart.vue'
+import MiscChart from '../../components/match/miscChart.vue'
+import ZonesChart from '../../components/match/zonesChart.vue'
+import ClimbChart from '../../components/match/climbChart.vue'
+import AccuracyChart from '../../components/match/accuracyChart.vue'
 
 export default {
   components: {
@@ -115,6 +176,8 @@ export default {
     AutoChart,
     MiscChart,
     ZonesChart,
+    ClimbChart,
+    AccuracyChart,
   },
   computed: {
     timeLabel: function () {
@@ -149,6 +212,9 @@ export default {
         )
       }
     },
+    validityMessage() {
+      return this.$store.state.login.validity ? '' : 'No Scout ID given.'
+    },
   },
   methods: {
     refresh: function (e) {
@@ -172,6 +238,7 @@ export default {
           },
           currMatchData: {
             postResultTime: '2022-01-20T15:15:00-05:00',
+            predictions: [0.7, 0.3],
             winner: 'red',
             metrics: {
               'Auto Low Goal': {
@@ -342,12 +409,24 @@ export default {
         e.target.classList.add('is-success')
       }
     },
+    submitPrediction: function (e) {
+      if (e != undefined) {
+        e.target.classList.remove('is-success')
+        e.target.classList.add('is-loading')
+      }
+
+      console.log(this.prediction.toLowerCase())
+
+      e.target.classList.add('is-success')
+      e.target.classList.remove('is-loading')
+    },
   },
   data() {
     return {
       matches: ['qm1', 'qm2'],
       currMatch: {},
       currMatchData: {},
+      prediction: '',
     }
   },
   beforeMount() {

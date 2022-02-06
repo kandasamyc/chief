@@ -1,7 +1,7 @@
 <template>
-  <div class="my-5">
+  <div>
     <p class="has-text-centered is-size-5">Accuracy Metrics</p>
-    <div class="chart-container mb-2" style="position: relative; height: 40vh">
+    <div class="chart-container mb-2" style="position: relative; width: 100%;">
       <canvas id="accuracy-chart"></canvas>
     </div>
   </div>
@@ -78,11 +78,7 @@ export default {
             'rgb(52, 162, 235)',
             'rgb(153, 102, 255)',
           ],
-          data: [
-            blue_data.high / 3,
-            blue_data.low / 3,
-            blue_data.miss / 3,
-          ],
+          data: [blue_data.high / 3, blue_data.low / 3, blue_data.miss / 3],
         },
       ]
 
@@ -165,11 +161,14 @@ export default {
                 label: function (context) {
                   const labelIndex =
                     context.datasetIndex * 3 + context.dataIndex
-                  return (
-                    context.chart.data.labels[labelIndex] +
-                    ': ' +
-                    context.formattedValue
-                  )
+
+                  let tooltip = context.chart.data.labels[labelIndex] + ': '
+                  tooltip += (
+                    context.dataset.data[context.dataIndex] * 100
+                  ).toFixed(1)
+                  tooltip += '%'
+
+                  return tooltip
                 },
               },
             },

@@ -1,8 +1,8 @@
 <template>
-  <div class="my-5">
-    <p class="has-text-centered is-size-5">Misc Metrics</p>
+  <div>
+    <p class="has-text-centered is-size-5">Auto Metrics</p>
     <div class="chart-container mb-2" style="position: relative; height: 40vh">
-      <canvas id="misc-chart"></canvas>
+      <canvas id="auto-chart"></canvas>
     </div>
   </div>
 </template>
@@ -11,21 +11,21 @@
 import Chart from 'chart.js/auto'
 
 export default {
-  name: 'miscChart',
+  name: 'autoChart',
   props: ['team_data'],
   methods: {
     render: function () {
-      const ctx = document.getElementById('misc-chart')
+      const ctx = document.getElementById('auto-chart')
       this.chart = new Chart(ctx, this.chartConfig)
       this.getData()
     },
     getData: function () {
-      let red_alliance = Object.keys(this.team_data).filter( key => this.team_data[key].alliance === "red")
+      let red_alliance = Object.keys(this.team_data).filter(
+        (key) => this.team_data[key].alliance === 'red'
+      )
       const labelSort = function (start, end, data) {
-        let start_alliance =
-          red_alliance.indexOf(start.text) != -1 ? 1 : 0
-        let end_alliance =
-          red_alliance.indexOf(end.text) != -1 ? 1 : 0
+        let start_alliance = red_alliance.indexOf(start.text) != -1 ? 1 : 0
+        let end_alliance = red_alliance.indexOf(end.text) != -1 ? 1 : 0
         return end_alliance - start_alliance
       }
 
@@ -47,7 +47,7 @@ export default {
         let team_datum = this.team_data[team]
         let set = {
           label: team,
-          data: Object.values(team_datum.misc) || [],
+          data: Object.values(team_datum.auto) || [],
           backgroundColor:
             team_datum.alliance === 'red'
               ? red_colors[red_index++]
@@ -69,7 +69,7 @@ export default {
       chartConfig: {
         type: 'bar',
         data: {
-          labels: ['Fouls', 'Climb Time'],
+          labels: ['Low Goal', 'High Goal', 'Misses'],
           datasets: [],
         },
         options: {
@@ -77,7 +77,7 @@ export default {
           plugins: {
             title: {
               display: false,
-              text: 'misc Metrics',
+              text: 'auto Metrics',
             },
             legend: {
               labels: {
