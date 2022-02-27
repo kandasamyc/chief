@@ -90,38 +90,6 @@
     </div>
     <template v-else-if="this.$route.params.key">
       <div class="box">
-        <AutoChart
-          class="mt-2"
-          :team_data="currMatch.team_metrics"
-          ref="autoChart"
-        />
-        <TeleopChart
-          class="mt-5"
-          :team_data="currMatch.team_metrics"
-          ref="teleopChart"
-        />
-        <MiscChart
-          class="mt-5"
-          :team_data="currMatch.team_metrics"
-          ref="miscChart"
-        />
-        <ZonesChart
-          class="mt-5"
-          :team_data="currMatch.team_metrics"
-          ref="zonesChart"
-        />
-        <ClimbChart
-          class="mt-5"
-          :team_data="currMatch.team_metrics"
-          ref="climbChart"
-        />
-        <AccuracyChart
-          class="mt-5"
-          :team_data="currMatch.team_metrics"
-          ref="accuracyChart"
-        />
-      </div>
-      <div class="box">
         <p class="has-text-centered mb-3 is-size-4">Make Prediction</p>
         <b-field>
           <b-radio-button
@@ -153,6 +121,38 @@
             >Submit</b-button
           >
         </b-field>
+      </div>
+      <div class="box">
+        <AutoChart
+          class="mt-2"
+          :team_data="currMatch.team_metrics"
+          ref="autoChart"
+        />
+        <TeleopChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="teleopChart"
+        />
+        <MiscChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="miscChart"
+        />
+        <ZonesChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="zonesChart"
+        />
+        <ClimbChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="climbChart"
+        />
+        <AccuracyChart
+          class="mt-5"
+          :team_data="currMatch.team_metrics"
+          ref="accuracyChart"
+        />
       </div>
     </template>
   </div>
