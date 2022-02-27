@@ -61,24 +61,34 @@
     </div>
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Auto</p>
-      <b-field label="Auto Low Goal">
+      <b-field label="Preloaded Cargo">
         <b-numberinput
           type="is-info"
           expanded
           size="is-large"
           placeholder="0"
           min="0"
-          v-model="autoLowGoal"
+          v-model="preloadCargo"
         ></b-numberinput>
       </b-field>
-      <b-field label="Auto High Goal">
+      <b-field label="Auto Low Hub">
         <b-numberinput
           type="is-info"
           expanded
           size="is-large"
           placeholder="0"
           min="0"
-          v-model="autoHighGoal"
+          v-model="autoLowHub"
+        ></b-numberinput>
+      </b-field>
+      <b-field label="Auto Upper Hub">
+        <b-numberinput
+          type="is-info"
+          expanded
+          size="is-large"
+          placeholder="0"
+          min="0"
+          v-model="autoUpperHub"
         ></b-numberinput>
       </b-field>
       <b-field label="Auto Misses">
@@ -91,30 +101,65 @@
           v-model="autoMisses"
         ></b-numberinput>
       </b-field>
+      <b-field label="Scored by HP">
+        <b-numberinput
+          type="is-info"
+          expanded
+          size="is-large"
+          placeholder="0"
+          min="0"
+          v-model="autoHumanScore"
+        ></b-numberinput>
+      </b-field>
+      <b-field label="Missed by HP">
+        <b-numberinput
+          type="is-info"
+          expanded
+          size="is-large"
+          placeholder="0"
+          min="0"
+          v-model="autoHumanMiss"
+        ></b-numberinput>
+      </b-field>
+      <b-field label="Taxied?">
+        <b-checkbox-button :native-value="true" v-model="taxied" expanded>
+          Yes
+        </b-checkbox-button>
+      </b-field>
+      <b-field label="Auto Shooting Zones" grouped>
+        <b-select v-model="autoShootingZones" multiple expanded>
+          <option value="0">Fender</option>
+          <option value="1">Elsewhere in Tarmac</option>
+          <option value="2">Launchpad</option>
+          <option value="3">Terminal</option>
+          <option value="4">Hangar Zone</option>
+          <option value="5">Elsewhere</option>
+        </b-select>
+      </b-field>
       <b-field label="Auto Notes">
         <b-input type="textarea" maxlength="300" v-model="autoNotes"></b-input>
       </b-field>
     </div>
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Teleop</p>
-      <b-field label="Teleop Low Goal">
+      <b-field label="Teleop Low Hub">
         <b-numberinput
           type="is-info"
           expanded
           size="is-large"
           placeholder="0"
           min="0"
-          v-model="teleopLowGoal"
+          v-model="teleopLowHub"
         ></b-numberinput>
       </b-field>
-      <b-field label="Teleop High Goal">
+      <b-field label="Teleop Upper Hub">
         <b-numberinput
           type="is-info"
           expanded
           size="is-large"
           placeholder="0"
           min="0"
-          v-model="teleopHighGoal"
+          v-model="teleopUpperHub"
         ></b-numberinput>
       </b-field>
       <b-field label="Teleop Misses">
@@ -127,20 +172,14 @@
           v-model="teleopMisses"
         ></b-numberinput>
       </b-field>
-      <b-field label="Control Panel" grouped>
-        <b-select v-model="controlPanel" expanded>
-          <option value="0">Did not use</option>
-          <option value="1">Level 1 Completed</option>
-          <option value="2">Level 2 Completed</option>
-        </b-select>
-      </b-field>
       <b-field label="Shooting Zones" grouped>
         <b-select v-model="shootingZones" multiple expanded>
-          <option value="0">Far Trench</option>
-          <option value="1">Near Trench</option>
-          <option value="2">Target Zone</option>
-          <option value="3">Initiation Line</option>
-          <option value="4">Rendezvous Point</option>
+          <option value="0">Fender</option>
+          <option value="1">Elsewhere in Tarmac</option>
+          <option value="2">Launchpad</option>
+          <option value="3">Terminal</option>
+          <option value="4">Hangar Zone</option>
+          <option value="5">Elsewhere</option>
         </b-select>
       </b-field>
       <b-field label="Teleop Notes">
@@ -166,19 +205,27 @@
         </b-slider>
       </b-field>
       <b-field label="Attempted Climb?">
-        <b-checkbox class="is-medium" v-model="attemptedPark" expanded>
-          Park
-        </b-checkbox>
+        <b-checkbox-button :native-value="true" v-model="attemptedLow" expanded>
+          Low
+        </b-checkbox-button>
 
-        <b-checkbox class="is-medium" v-model="attemptedHang" expanded>
-          Hang
-        </b-checkbox>
+        <b-checkbox-button :native-value="true" v-model="attemptedMid" expanded>
+          Mid
+        </b-checkbox-button>
+        <b-checkbox-button :native-value="true" v-model="attemptedHigh" expanded>
+          High
+        </b-checkbox-button>
+        <b-checkbox-button :native-value="true" v-model="attemptedTraversal" expanded>
+          Traversal
+        </b-checkbox-button>
       </b-field>
       <b-field label="Final Climb Type">
         <b-select v-model="finalClimbType" expanded>
           <option value="0">No Climb</option>
-          <option value="1">Park</option>
-          <option value="2">Hang</option>
+          <option value="1">Low</option>
+          <option value="2">Mid</option>
+          <option value="3">High</option>
+          <option value="4">Traversal</option>
         </b-select>
       </b-field>
     </div>
@@ -186,6 +233,14 @@
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">
         Miscellaneous
       </p>
+      <b-field label="How much do they play defense?">
+        <b-select v-model="defenseTime" expanded>
+          <option value="0">Never</option>
+          <option value="1">Sometimes</option>
+          <option value="2">Most of the time</option>
+          <option value="3">All if the time</option>
+        </b-select>
+      </b-field>
       <b-field label="Notes">
         <b-input type="textarea" maxlength="300" v-model="notes"></b-input>
       </b-field>
@@ -245,48 +300,70 @@ export default {
         alliance: this.alliance,
         driver_station: this.driverStation,
 
-        auto_low_goal: this.autoLowGoal,
-        auto_high_goal: this.autoHighGoal,
+        preload_cargo: this.preloadCargo,
+        auto_low_hub: this.autoLowHub,
+        auto_upper_hub: this.autoUpperHub,
         auto_misses: this.autoMisses,
+        auto_human_score: this.autoHumanScore,
+        auto_human_misses: this.autoHumanMiss,
+        taxied: this.taxied,
+        auto_shooting_zones: this.autoShootingZones,
         auto_notes: this.autoNotes,
 
-        teleop_low_goal: this.teleopLowGoal,
-        teleop_high_goal: this.teleopHighGoal,
+        teleop_low_hub: this.teleopLowHub,
+        teleop_upper_hub: this.teleopUpperHub,
         teleop_misses: this.teleopMisses,
-        control_panel: this.controlPanel,
         shooting_zones: this.shootingZones,
         teleop_notes: this.teleopNotes,
 
         climb_time: this.climbTime,
-        attempted_park: this.attemptedPark,
-        attempted_hang: this.attemptedHang,
+        attempted_low: this.attemptedLow,
+        attemped_mid: this.attemptedMid,
+        attempted_high: this.attemptedHigh,
+        attempted_traversal: this.attemptedTraversal,
         final_climb_type: this.finalClimbType,
+
+        defense_time: this.defenseTime,
+        notes: this.notes,
       }
+
+      console.log(data)
 
       document.getElementById('submitButton').classList.toggle('is-loading')
       document.getElementById('submitButton').classList.toggle('is-success')
     },
     reset: function (event) {
-      this.autoLowGoal = 0
-      this.autoHighGoal = 0
-      this.autoMisses = 0
-      this.autoNotes = ''
       this.scoutID = ''
       this.matchType = 'qm'
       this.matchNumber = 0
       this.teamNumber = ''
       this.alliance = ''
       this.driverStation = ''
-      this.teleopLowGoal = 0
-      this.teleopHighGoal = 0
+
+      this.preloadCargo = 0
+      this.autoLowHub = 0
+      this.autoUpperHub = 0
+      this.autoMisses = 0
+      this.autoHumanScore = 0
+      this.autoHumanMiss = 0
+      this.taxied = 0
+      this.autoShootingZones = 0
+      this.autoNotes = ''
+
+      this.teleopLowHub = 0
+      this.teleopUpperHub = 0
       this.teleopMisses = 0
-      this.controlPanel = 0
       this.shootingZones = []
       this.teleopNotes = ''
+
       this.climbTime = 0
-      this.attemptedPark = false
-      this.attemptedHang = false
+      this.attemptedLow = false
+      this.attemptedMid = false
+      this.attemptedHigh = false
+      this.attemptedTraversal = false
       this.finalClimbType = ''
+
+      this.defense_time = ''
       this.notes = ''
       document.getElementById('submitButton').classList.remove('is-success')
       document.getElementById('submitButton').classList.remove('is-danger')
@@ -318,27 +395,39 @@ export default {
   },
   data() {
     return {
-      autoLowGoal: 0,
-      autoHighGoal: 0,
-      autoMisses: 0,
-      autoNotes: '',
       scoutID: '',
       matchType: 'qm',
       matchNumber: 0,
       teamNumber: '',
       alliance: '',
       driverStation: '',
-      teleopLowGoal: 0,
-      teleopHighGoal: 0,
+
+      preloadCargo: 0,
+      autoLowHub: 0,
+      autoUpperHub: 0,
+      autoMisses: 0,
+      autoHumanScore: 0,
+      autoHumanMiss: 0,
+      taxied: false,
+      autoShootingZones: [],
+      autoNotes: '',
+
+      teleopLowHub: 0,
+      teleopUpperHub: 0,
       teleopMisses: 0,
-      controlPanel: 0,
       shootingZones: [],
       teleopNotes: '',
+
       climbTime: 0,
-      attemptedPark: false,
-      attemptedHang: false,
+      attemptedLow: false,
+      attemptedMid: false,
+      attemptedHigh: false,
+      attemptedTraversal: false,
       finalClimbType: '',
+
+      defenseTime: '',
       notes: '',
+
       teamsInMatch: {
         qm1: {
           red: ['4099', '2363', '614'],
