@@ -207,7 +207,7 @@
           :disabled="!attemptedLow"
           :tooltip="false"
           :min="0"
-          :max="5"
+          :max="6"
         >
         </b-slider>
       </b-field>
@@ -222,7 +222,7 @@
           :disabled="!attemptedMid"
           :tooltip="false"
           :min="0"
-          :max="5"
+          :max="6"
         >
         </b-slider>
       </b-field>
@@ -237,7 +237,7 @@
           :disabled="!attemptedHigh"
           :tooltip="false"
           :min="0"
-          :max="5"
+          :max="6"
         >
         </b-slider>
       </b-field>
@@ -253,7 +253,7 @@
           :disabled="!attemptedTraversal"
           :tooltip="false"
           :min="0"
-          :max="5"
+          :max="6"
         >
         </b-slider>
       </b-field>
