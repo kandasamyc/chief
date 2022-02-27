@@ -70,15 +70,10 @@
     </div>
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Auto</p>
-      <b-field label="Preloaded Cargo">
-        <b-numberinput
-          type="is-info"
-          expanded
-          size="is-large"
-          placeholder="0"
-          min="0"
-          v-model="preloadCargo"
-        ></b-numberinput>
+      <b-field label="Preloaded Cargo?">
+        <b-checkbox-button :native-value="true" v-model="preloadedCargo" expanded>
+          Yes
+        </b-checkbox-button>
       </b-field>
       <b-field label="Auto Low Hub">
         <b-numberinput
@@ -211,8 +206,8 @@
           grouped
           :disabled="!attemptedLow"
           :tooltip="false"
-          :min="1"
-          :max="6"
+          :min="0"
+          :max="5"
         >
         </b-slider>
       </b-field>
@@ -226,8 +221,8 @@
           grouped
           :disabled="!attemptedMid"
           :tooltip="false"
-          :min="1"
-          :max="6"
+          :min="0"
+          :max="5"
         >
         </b-slider>
       </b-field>
@@ -241,8 +236,8 @@
           grouped
           :disabled="!attemptedHigh"
           :tooltip="false"
-          :min="1"
-          :max="6"
+          :min="0"
+          :max="5"
         >
         </b-slider>
       </b-field>
@@ -257,8 +252,8 @@
           grouped
           :disabled="!attemptedTraversal"
           :tooltip="false"
-          :min="1"
-          :max="6"
+          :min="0"
+          :max="5"
         >
         </b-slider>
       </b-field>
@@ -343,7 +338,7 @@ export default {
         alliance: this.alliance,
         driver_station: this.driverStation,
 
-        preload_cargo: this.preloadCargo,
+        preloaded_cargo: this.preloadedCargo,
         auto_low_hub: this.autoLowHub,
         auto_upper_hub: this.autoUpperHub,
         auto_misses: this.autoMisses,
@@ -387,7 +382,7 @@ export default {
       this.alliance = ''
       this.driverStation = ''
 
-      this.preloadCargo = 0
+      this.preloadedCargo = false
       this.autoLowHub = 0
       this.autoUpperHub = 0
       this.autoMisses = 0
@@ -455,7 +450,7 @@ export default {
       alliance: '',
       driverStation: '',
 
-      preloadCargo: 0,
+      preloadedCargo: false,
       autoLowHub: 0,
       autoUpperHub: 0,
       autoMisses: 0,
