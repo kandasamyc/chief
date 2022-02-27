@@ -23,6 +23,15 @@
           v-on:input="autocompleteTeam"
           required
         ></b-numberinput>
+        <template v-if="this.matchType != 'qm' && this.matchType != 'f'">
+          <b-numberinput
+            expanded
+            :controls="false"
+            v-model="setNumber"
+            v-on:input="autocompleteTeam"
+            required
+          ></b-numberinput>
+        </template>
       </b-field>
       <b-field label="Alliance" grouped>
         <b-select
@@ -192,32 +201,66 @@
     </div>
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Endgame</p>
-      <b-field label="Endgame Climb Time">
+      <b-field label="Low Climb">
+        <b-checkbox :native-value="true" v-model="attemptedLow"> </b-checkbox>
         <b-slider
-          v-model="climbTime"
+          v-model="lowClimbTime"
           label="medium"
           indicator
           ticks
+          grouped
+          :disabled="!attemptedLow"
           :tooltip="false"
           :min="1"
           :max="6"
         >
         </b-slider>
       </b-field>
-      <b-field label="Attempted Climb?">
-        <b-checkbox-button :native-value="true" v-model="attemptedLow" expanded>
-          Low
-        </b-checkbox-button>
-
-        <b-checkbox-button :native-value="true" v-model="attemptedMid" expanded>
-          Mid
-        </b-checkbox-button>
-        <b-checkbox-button :native-value="true" v-model="attemptedHigh" expanded>
-          High
-        </b-checkbox-button>
-        <b-checkbox-button :native-value="true" v-model="attemptedTraversal" expanded>
-          Traversal
-        </b-checkbox-button>
+      <b-field label="Mid Climb">
+        <b-checkbox :native-value="true" v-model="attemptedMid"> </b-checkbox>
+        <b-slider
+          v-model="midClimbTime"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :disabled="!attemptedMid"
+          :tooltip="false"
+          :min="1"
+          :max="6"
+        >
+        </b-slider>
+      </b-field>
+      <b-field label="High Climb">
+        <b-checkbox :native-value="true" v-model="attemptedHigh"> </b-checkbox>
+        <b-slider
+          v-model="highClimbTime"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :disabled="!attemptedHigh"
+          :tooltip="false"
+          :min="1"
+          :max="6"
+        >
+        </b-slider>
+      </b-field>
+      <b-field label="Traversal Climb">
+        <b-checkbox :native-value="true" v-model="attemptedTraversal">
+        </b-checkbox>
+        <b-slider
+          v-model="traversalClimbTime"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :disabled="!attemptedTraversal"
+          :tooltip="false"
+          :min="1"
+          :max="6"
+        >
+        </b-slider>
       </b-field>
       <b-field label="Final Climb Type">
         <b-select v-model="finalClimbType" expanded>
@@ -238,7 +281,7 @@
           <option value="0">Never</option>
           <option value="1">Sometimes</option>
           <option value="2">Most of the time</option>
-          <option value="3">All if the time</option>
+          <option value="3">All of the time</option>
         </b-select>
       </b-field>
       <b-field label="Notes">
@@ -295,7 +338,7 @@ export default {
       document.getElementById('submitButton').classList.toggle('is-loading')
       var data = {
         scout_id: this.scoutID,
-        match_key: this.matchType + this.matchNumber,
+        match_key: this.matchType + this.matchNumber + "m" + this.setNumber,
         team_number: this.teamNumber,
         alliance: this.alliance,
         driver_station: this.driverStation,
@@ -316,11 +359,14 @@ export default {
         shooting_zones: this.shootingZones,
         teleop_notes: this.teleopNotes,
 
-        climb_time: this.climbTime,
         attempted_low: this.attemptedLow,
+        low_climb_time: this.lowClimbTime,
         attemped_mid: this.attemptedMid,
+        mid_climb_time: this.midClimbTime,
         attempted_high: this.attemptedHigh,
+        high_climb_time: this.highClimbTime,
         attempted_traversal: this.attemptedTraversal,
+        traversal_climb_time: this.traversalClimbTime,
         final_climb_type: this.finalClimbType,
 
         defense_time: this.defenseTime,
@@ -336,6 +382,7 @@ export default {
       this.scoutID = ''
       this.matchType = 'qm'
       this.matchNumber = 0
+      this.setNumber = 0
       this.teamNumber = ''
       this.alliance = ''
       this.driverStation = ''
@@ -356,11 +403,14 @@ export default {
       this.shootingZones = []
       this.teleopNotes = ''
 
-      this.climbTime = 0
       this.attemptedLow = false
+      this.lowClimbTime = 0
       this.attemptedMid = false
+      this.midClimbTime = 0
       this.attemptedHigh = false
+      this.highClimbTime = 0
       this.attemptedTraversal = false
+      this.traversalClimbTime = 0
       this.finalClimbType = ''
 
       this.defense_time = ''
@@ -373,12 +423,14 @@ export default {
       if (
         this.matchType != null &&
         this.matchNumber > 0 &&
+        ((this.matchType === "qm" || this.matchType === "f")  || this.setNumber > 0) &&
         this.alliance != '' &&
         this.driverStation != null
       ) {
+        console.log(this.matchType + String(this.matchNumber) + (this.matchType != "qm" ? "m" + String(this.setNumber) : ""))
         try {
           this.teamNumber =
-            this.teamsInMatch[this.matchType + String(this.matchNumber)][
+            this.teamsInMatch[this.matchType + String(this.matchNumber) + (this.matchType != "qm" ? "m" + String(this.setNumber) : "")][
               this.alliance
             ][this.driverStation - 1]
           this.teamStatus = ''
@@ -398,6 +450,7 @@ export default {
       scoutID: '',
       matchType: 'qm',
       matchNumber: 0,
+      setNumber: 0,
       teamNumber: '',
       alliance: '',
       driverStation: '',
@@ -418,10 +471,13 @@ export default {
       shootingZones: [],
       teleopNotes: '',
 
-      climbTime: 0,
+      lowClimbTime: 0,
       attemptedLow: false,
+      midClimbTime: 0,
       attemptedMid: false,
+      highClimbTime: 0,
       attemptedHigh: false,
+      traversalClimbTime: 0,
       attemptedTraversal: false,
       finalClimbType: '',
 
@@ -429,10 +485,22 @@ export default {
       notes: '',
 
       teamsInMatch: {
-        qm1: {
-          red: ['4099', '2363', '614'],
-          blue: ['449', '613', '612'],
+        qm7: {
+          red: ['2370', '5813', '151'],
+          blue: ['58', '8724', '238'],
         },
+        qm11: {
+          red: ['1073', '238', '125'],
+          blue: ['509', '2342', '3467'],
+        },
+        qf2m1:{
+          red:['88','8724','1073'],
+          blue:['4909','2370','157']
+        },
+        f1:{
+          red:['125','238','5459'],
+          blue:['5813','58','501']
+        }
       },
       teamMessage: '',
       teamStatus: '',

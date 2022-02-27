@@ -17,7 +17,7 @@ export default {
       { hid: 'description', name: 'description', content: 'Team 4099\'s Scouting App' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', href: '/chief/favicon.ico?v=2' }],
+    link: [{ rel: 'icon', href: '/chief/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -42,6 +42,9 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      fileName: 'logo.png',
+    },
     manifest: {
       lang: 'en',
     },

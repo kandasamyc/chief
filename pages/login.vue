@@ -43,7 +43,7 @@ export default {
     },
     validate: function () {
       document.getElementById('submitButton').classList.add('is-loading')
-      var req = ['ksam']
+      var req = ['ksam','zac','julia','crystal','rehan','ryan','test1', 'test2','test3','test4']
       var valid = req.indexOf(this.name) !== -1
       document.getElementById('submitButton').classList.remove('is-loading')
       if (valid) {
