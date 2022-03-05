@@ -57,11 +57,12 @@
         </b-select>
       </b-field>
       <b-field
-        
+        v-bind:message="teamMessage"
+        v-bind:type="teamStatus"
         label="Team Number"
       >
         <b-input
-          
+          disabled
           custom-class="has-text-grey"
           v-model="teamNumber"
         ></b-input>
@@ -336,7 +337,13 @@ export default {
       document.getElementById('submitButton').classList.toggle('is-loading')
       var data = {
         scout_id: name,
-        match_key: '2022dc305_' + this.matchType + this.matchNumber + (this.matchType != 'qm' && this.matchType != 'f' ? 'm' + this.setNumber: ''),
+        match_key:
+          '2022dc305_' +
+          this.matchType +
+          this.matchNumber +
+          (this.matchType != 'qm' && this.matchType != 'f'
+            ? 'm' + this.setNumber
+            : ''),
         team_number: 'frc' + this.teamNumber,
         alliance: this.alliance,
         driver_station: this.driverStation,
@@ -382,12 +389,13 @@ export default {
       }
 
       // send POST request
-      fetch("https://api.team4099.com/add_team_datum", options)
-        .then((res) => document.getElementById('submitButton').classList.toggle('is-loading'))
-        .then(document.getElementById('submitButton').classList.toggle('is-success'))
-
-      
-      
+      fetch('https://api.team4099.com/add_team_datum', options)
+        .then((res) =>
+          document.getElementById('submitButton').classList.toggle('is-loading')
+        )
+        .then(
+          document.getElementById('submitButton').classList.toggle('is-success')
+        )
     },
     reset: function (event) {
       this.scoutID = ''
@@ -422,7 +430,7 @@ export default {
       this.highClimbTime = 0
       this.attemptedTraversal = false
       this.traversalClimbTime = 0
-      this.finalClimbType = "0"
+      this.finalClimbType = '0'
 
       this.defense_time = ''
       this.notes = ''
@@ -431,7 +439,6 @@ export default {
       this.submitMessage = ''
     },
     autocompleteTeam: function (event) {
-      return
       if (
         this.matchType != null &&
         this.matchNumber > 0 &&
@@ -452,7 +459,7 @@ export default {
               this.matchType +
                 String(this.matchNumber) +
                 (this.matchType != 'qm' ? 'm' + String(this.setNumber) : '')
-            ][this.alliance][this.driverStation - 1].substring(3)
+            ][this.alliance][this.driverStation - 1]
           this.teamStatus = ''
           this.teamMessage = ''
         } catch (error) {
@@ -463,13 +470,6 @@ export default {
       } else {
         this.teamNumber = ''
       }
-    },
-    get_teams: async function () {
-      var data = await fetch('https://api.team4099.com/team_in_match').then(
-        (response) => response.json()
-      )
-
-      this.teamsInMatch = data
     },
   },
   data() {
@@ -511,14 +511,73 @@ export default {
       defenseTime: '',
       notes: '',
 
-      teamsInMatch: {},
+      teamsInMatch: {
+        qm1: {
+          blue: [2914, 1895, 8326],
+          red: [888, 620, 2900],
+        },
+        qm2: {
+          blue: [836, 2912, 611],
+          red: [3793, 4242, 4099],
+        },
+        qm3: {
+          blue: [2849, 5830, 2988],
+          red: [612, 4505, 8622],
+        },
+        qm4: {
+          blue: [8326, 2914, 4099],
+          red: [1895, 4242, 3793],
+        },
+        qm5: {
+          blue: [2912, 888, 620],
+          red: [612, 5830, 2988],
+        },
+        qm6: {
+          blue: [836, 8622, 2849],
+          red: [611, 4505, 2900],
+        },
+        qm7: {
+          blue: [4242, 3793, 2914],
+          red: [888, 612, 5830],
+        },
+        qm8: {
+          blue: [2912, 620, 8236],
+          red: [8622, 836, 2849],
+        },
+        qm9: { blue: [4505, 2988, 4099], red: [2900, 1895, 611] },
+        qm10: { blue: [3793, 2914, 2912], red: [612, 8622, 888] },
+        qm11: { blue: [4242, 2849, 1895], red: [836, 2988, 611] },
+        qm12: {
+          blue: [8326, 4099, 2900],
+          red: [620, 5830, 4505],
+        },
+        qm13: {
+          blue: [4242, 2912, 1895],
+          red: [2914, 2849, 2988],
+        },
+        qm14: { blue: [8326, 888, 4505], red: [611, 3793, 620] },
+        qm15: { blue: [4099, 5830, 8622], red: [836, 2099, 612] },
+        qm16: { blue: [4505, 3793, 888], red: [2988, 2849, 611] },
+        qm17: {
+          blue: [5830, 8326, 836],
+          red: [2900, 2912, 2914],
+        },
+        qm18: {
+          blue: [8622, 620, 1895],
+          red: [4099, 612, 4242],
+        },
+        qm19: {
+          blue: [2849, 836, 4505],
+          red: [5830, 8326, 2914],
+        },
+        qm20: { blue: [1895, 611, 3793], red: [2912, 2900, 612] },
+        qm21: { blue: [8622, 4099, 620], red: [4242, 888, 2988] },
+        qm22: { blue: [611, 1895, 612], red: [5830, 836, 3793] },
+      },
       teamMessage: '',
       teamStatus: '',
       submitMessage: '',
     }
-  },
-  beforeMount() {
-    this.get_teams()
   },
 }
 </script>
