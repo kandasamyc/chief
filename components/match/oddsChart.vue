@@ -12,6 +12,9 @@ export default {
   props: ['predictions'],
   methods: {
     getOdds: function () {
+            if (this.team_data == undefined){
+        return
+      }
       this.oddsChartData.data.datasets[0].data = this.predictions
       this.chart.update()
     },

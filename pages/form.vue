@@ -57,12 +57,11 @@
         </b-select>
       </b-field>
       <b-field
-        v-bind:message="teamMessage"
-        v-bind:type="teamStatus"
+        
         label="Team Number"
       >
         <b-input
-          disabled
+          
           custom-class="has-text-grey"
           v-model="teamNumber"
         ></b-input>
@@ -71,7 +70,11 @@
     <div class="box">
       <p class="has-text-centered is-size-4 mb-4 has-text-dark">Auto</p>
       <b-field label="Preloaded Cargo?">
-        <b-checkbox-button :native-value="true" v-model="preloadedCargo" expanded>
+        <b-checkbox-button
+          :native-value="true"
+          v-model="preloadedCargo"
+          expanded
+        >
           Yes
         </b-checkbox-button>
       </b-field>
@@ -332,9 +335,9 @@ export default {
       this.submitMessage = ''
       document.getElementById('submitButton').classList.toggle('is-loading')
       var data = {
-        scout_id: this.scoutID,
-        match_key: this.matchType + this.matchNumber + "m" + this.setNumber,
-        team_number: this.teamNumber,
+        scout_id: name,
+        match_key: '2022dc305_' + this.matchType + this.matchNumber + (this.matchType != 'qm' && this.matchType != 'f' ? 'm' + this.setNumber: ''),
+        team_number: 'frc' + this.teamNumber,
         alliance: this.alliance,
         driver_station: this.driverStation,
 
@@ -370,8 +373,21 @@ export default {
 
       console.log(data)
 
-      document.getElementById('submitButton').classList.toggle('is-loading')
-      document.getElementById('submitButton').classList.toggle('is-success')
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+
+      // send POST request
+      fetch("https://api.team4099.com/add_team_datum", options)
+        .then((res) => document.getElementById('submitButton').classList.toggle('is-loading'))
+        .then(document.getElementById('submitButton').classList.toggle('is-success'))
+
+      
+      
     },
     reset: function (event) {
       this.scoutID = ''
@@ -406,7 +422,7 @@ export default {
       this.highClimbTime = 0
       this.attemptedTraversal = false
       this.traversalClimbTime = 0
-      this.finalClimbType = ''
+      this.finalClimbType = "0"
 
       this.defense_time = ''
       this.notes = ''
@@ -415,19 +431,28 @@ export default {
       this.submitMessage = ''
     },
     autocompleteTeam: function (event) {
+      return
       if (
         this.matchType != null &&
         this.matchNumber > 0 &&
-        ((this.matchType === "qm" || this.matchType === "f")  || this.setNumber > 0) &&
+        (this.matchType === 'qm' ||
+          this.matchType === 'f' ||
+          this.setNumber > 0) &&
         this.alliance != '' &&
         this.driverStation != null
       ) {
-        console.log(this.matchType + String(this.matchNumber) + (this.matchType != "qm" ? "m" + String(this.setNumber) : ""))
+        console.log(
+          this.matchType +
+            String(this.matchNumber) +
+            (this.matchType != 'qm' ? 'm' + String(this.setNumber) : '')
+        )
         try {
           this.teamNumber =
-            this.teamsInMatch[this.matchType + String(this.matchNumber) + (this.matchType != "qm" ? "m" + String(this.setNumber) : "")][
-              this.alliance
-            ][this.driverStation - 1]
+            this.teamsInMatch[
+              this.matchType +
+                String(this.matchNumber) +
+                (this.matchType != 'qm' ? 'm' + String(this.setNumber) : '')
+            ][this.alliance][this.driverStation - 1].substring(3)
           this.teamStatus = ''
           this.teamMessage = ''
         } catch (error) {
@@ -438,6 +463,13 @@ export default {
       } else {
         this.teamNumber = ''
       }
+    },
+    get_teams: async function () {
+      var data = await fetch('https://api.team4099.com/team_in_match').then(
+        (response) => response.json()
+      )
+
+      this.teamsInMatch = data
     },
   },
   data() {
@@ -474,33 +506,19 @@ export default {
       attemptedHigh: false,
       traversalClimbTime: 0,
       attemptedTraversal: false,
-      finalClimbType: '',
+      finalClimbType: '0',
 
       defenseTime: '',
       notes: '',
 
-      teamsInMatch: {
-        qm7: {
-          red: ['2370', '5813', '151'],
-          blue: ['58', '8724', '238'],
-        },
-        qm11: {
-          red: ['1073', '238', '125'],
-          blue: ['509', '2342', '3467'],
-        },
-        qf2m1:{
-          red:['88','8724','1073'],
-          blue:['4909','2370','157']
-        },
-        f1:{
-          red:['125','238','5459'],
-          blue:['5813','58','501']
-        }
-      },
+      teamsInMatch: {},
       teamMessage: '',
       teamStatus: '',
       submitMessage: '',
     }
+  },
+  beforeMount() {
+    this.get_teams()
   },
 }
 </script>

@@ -217,7 +217,7 @@ export default {
     },
   },
   methods: {
-    refresh: function (e) {
+    refresh: async function (e) {
       if (this.$route.params.key == undefined) {
         return
       }
@@ -227,174 +227,30 @@ export default {
       }
       // Do the fetching
       // For now we'll look up the data
-      var allData = {
-        qm1: {
-          currMatch: {
-            predictedTime: '2022-01-20T15:00:00-05:00',
-            alliances: {
-              red: [4099, 612, 614],
-              blue: [449, 613, 2363],
-            },
-          },
-          currMatchData: {
-            postResultTime: '2022-01-20T15:15:00-05:00',
-            predictions: [0.7, 0.3],
-            winner: 'red',
-            metrics: {
-              'Auto Low Goal': {
-                red: 5,
-                blue: 6,
-              },
-              'Auto Outer': {
-                red: 4,
-                blue: 2,
-              },
-              'Auto Inner': {
-                red: 20,
-                blue: 5,
-              },
-              'Teleop Low Goal': {
-                red: 5,
-                blue: 7,
-              },
-              'Teleop Outer': {
-                red: 5,
-                blue: 7,
-              },
-              'Teleop Inner': {
-                red: 5,
-                blue: 7,
-              },
-              'Endgame Points': {
-                red: 5,
-                blue: 7,
-              },
-              'Number Hanging': {
-                red: 5,
-                blue: 7,
-              },
-              'Foul Points': {
-                red: 5,
-                blue: 7,
-              },
-              'Total Points': {
-                red: 5,
-                blue: 7,
-              },
-            },
-          },
-        },
-        qm2: {
-          currMatch: {
-            predictedTime: '2022-01-22T15:00:00-05:00',
-            alliances: {
-              red: [2418, 674, 512],
-              blue: [614, 4488, 692],
-            },
-            team_metrics: {
-              512: {
-                accuracy: { high: 0.097, low: 0.751, miss: 0.153 },
-                alliance: 'red',
-                auto: { high_goal: 2.1, low_goal: 5.3, misses: 2.0 },
-                climb: { hang: 0.905, no_climb: 0.087, park: 0.008 },
-                misc: { climb_time: 1.1, fouls: 5.0 },
-                teleop: { high_goal: 2.9, low_goal: 5.4, misses: 0.2 },
-                zones: {
-                  far_trench: 0.638,
-                  initiation_line: 0.142,
-                  near_trench: 0.472,
-                  rendezvous_point: 0.024,
-                  target_zone: 0.174,
-                },
-              },
-              614: {
-                accuracy: { high: 0.65, low: 0.093, miss: 0.256 },
-                alliance: 'blue',
-                auto: { high_goal: 6.6, low_goal: 3.3, misses: 0.7 },
-                climb: { hang: 0.717, no_climb: 0.263, park: 0.02 },
-                misc: { climb_time: 1.7, fouls: 5.4 },
-                teleop: { high_goal: 2.2, low_goal: 4.1, misses: 1.4 },
-                zones: {
-                  far_trench: 0.565,
-                  initiation_line: 0.117,
-                  near_trench: 0.343,
-                  rendezvous_point: 0.574,
-                  target_zone: 0.807,
-                },
-              },
-              674: {
-                accuracy: { high: 0.093, low: 0.48, miss: 0.426 },
-                alliance: 'red',
-                auto: { high_goal: 5.4, low_goal: 5.4, misses: 1.4 },
-                climb: { hang: 0.764, no_climb: 0.229, park: 0.008 },
-                misc: { climb_time: 3.5, fouls: 4.4 },
-                teleop: { high_goal: 3.9, low_goal: 5.7, misses: 0.8 },
-                zones: {
-                  far_trench: 0.591,
-                  initiation_line: 0.791,
-                  near_trench: 0.034,
-                  rendezvous_point: 0.614,
-                  target_zone: 0.726,
-                },
-              },
-              692: {
-                accuracy: { high: 0.525, low: 0.027, miss: 0.449 },
-                alliance: 'blue',
-                auto: { high_goal: 5.5, low_goal: 4.3, misses: 1.3 },
-                climb: { hang: 0.293, no_climb: 0.55, park: 0.157 },
-                misc: { climb_time: 3.1, fouls: 6.3 },
-                teleop: { high_goal: 2.9, low_goal: 6.9, misses: 0.5 },
-                zones: {
-                  far_trench: 0.771,
-                  initiation_line: 0.939,
-                  near_trench: 0.75,
-                  rendezvous_point: 0.183,
-                  target_zone: 0.148,
-                },
-              },
-              2418: {
-                accuracy: { high: 0.056, low: 0.436, miss: 0.508 },
-                alliance: 'red',
-                auto: { high_goal: 6.6, low_goal: 6.3, misses: 0.4 },
-                climb: { hang: 0.651, no_climb: 0.03, park: 0.319 },
-                misc: { climb_time: 0.7, fouls: 3.3 },
-                teleop: { high_goal: 6.4, low_goal: 6.4, misses: 1.7 },
-                zones: {
-                  far_trench: 0.145,
-                  initiation_line: 0.834,
-                  near_trench: 0.077,
-                  rendezvous_point: 0.492,
-                  target_zone: 0.884,
-                },
-              },
-              4488: {
-                accuracy: { high: 0.413, low: 0.009, miss: 0.578 },
-                alliance: 'blue',
-                auto: { high_goal: 3.8, low_goal: 5.3, misses: 0.4 },
-                climb: { hang: 0.202, no_climb: 0.261, park: 0.538 },
-                misc: { climb_time: 0.2, fouls: 4.7 },
-                teleop: { high_goal: 4.5, low_goal: 4.3, misses: 0.3 },
-                zones: {
-                  far_trench: 0.38,
-                  initiation_line: 0.362,
-                  near_trench: 0.988,
-                  rendezvous_point: 0.397,
-                  target_zone: 0.386,
-                },
-              },
-            },
-          },
-        },
-      }
+      var data = await fetch('https://api.team4099.com/get_match_data/2022dc305_'+this.$route.params.key).then(
+        (response) => response.json()
+      )
 
-      var currMatch = allData[this.$route.params.key]['currMatch']
+      var currMatch = data['2022dc305_' + this.$route.params.key]['currMatch']
       currMatch['alliances'] = [
-        { color: 'red', teams: currMatch['alliances']['red'] },
-        { color: 'blue', teams: currMatch['alliances']['blue'] },
+        {
+          color: 'red',
+          teams: currMatch['alliances']['red'].map(function (e) {
+            return e.substring(3)
+          }),
+        },
+        {
+          color: 'blue',
+          teams: currMatch['alliances']['blue'].map(function (e) {
+            return e.substring(3)
+          }),
+        },
       ]
-      var currMatchData = allData[this.$route.params.key]['currMatchData']
+      var currMatchData = data['2022dc305_' + this.$route.params.key]['currMatchData']
       this.currMatch = currMatch
       this.currMatchData = currMatchData != undefined ? currMatchData : {}
+      console.log(currMatch)
+      console.log(currMatchData)
       if (e != undefined) {
         if (this.$refs.oddsChart != undefined) this.$refs.oddsChart.getOdds()
         if (this.$refs.teleopChart != undefined) {

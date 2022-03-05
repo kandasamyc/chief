@@ -20,6 +20,9 @@ export default {
       this.getData()
     },
     getData: function () {
+            if (this.team_data == undefined){
+        return
+      }
       let red_alliance = Object.keys(this.team_data).filter(
         (key) => this.team_data[key].alliance === 'red'
       )
