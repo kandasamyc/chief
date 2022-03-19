@@ -279,10 +279,12 @@
       </p>
       <b-field label="How much do they play defense?">
         <b-select v-model="defenseTime" expanded>
-          <option value="0">Never</option>
-          <option value="1">Sometimes</option>
-          <option value="2">Most of the time</option>
-          <option value="3">All of the time</option>
+          <option value="0">0%</option>
+          <option value="1">25%</option>
+          <option value="2">50%</option>
+          <option value="3">75%</option>
+                    <option value="4">100%</option>
+
         </b-select>
       </b-field>
       <b-field label="How well do they drive?">
