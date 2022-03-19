@@ -361,7 +361,7 @@ export default {
         driver_station: this.driverStation,
 
         preloaded_cargo: this.preloadedCargo,
-        auto_low_hub: this.autoLowHub,
+        auto_lower_hub: this.autoLowHub,
         auto_upper_hub: this.autoUpperHub,
         auto_misses: this.autoMisses,
         auto_human_score: this.autoHumanScore,
@@ -370,7 +370,7 @@ export default {
         auto_shooting_zones: this.autoShootingZones,
         auto_notes: this.autoNotes,
 
-        teleop_low_hub: this.teleopLowHub,
+        teleop_lower_hub: this.teleopLowHub,
         teleop_upper_hub: this.teleopUpperHub,
         teleop_misses: this.teleopMisses,
         shooting_zones: this.shootingZones,
