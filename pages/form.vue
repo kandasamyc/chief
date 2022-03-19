@@ -348,9 +348,9 @@ export default {
       this.submitMessage = ''
       document.getElementById('submitButton').classList.toggle('is-loading')
       var data = {
-        scout_id: this.scoutID,
+        scout_id: this.name,
         match_key:
-          '2022week0_' +
+          '2022dc319_' +
           this.matchType +
           this.matchNumber +
           (this.matchType != 'qm' && this.matchType != 'f'
@@ -397,13 +397,13 @@ export default {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'cors'
+    'Accept': 'application/json, text/plain, */*',
+    'Content-Type': 'application/json'
+      },
       }
 
       // send POST request
-      fetch('https://api.team4099.com/add_team_datum', options)
+      fetch('https://api.team4099.com/api/add_team_datum', options)
         .then((res) =>
           document.getElementById('submitButton').classList.toggle('is-loading')
         )
