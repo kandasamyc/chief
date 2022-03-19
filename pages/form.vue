@@ -283,8 +283,7 @@
           <option value="1">25%</option>
           <option value="2">50%</option>
           <option value="3">75%</option>
-                    <option value="4">100%</option>
-
+          <option value="4">100%</option>
         </b-select>
       </b-field>
       <b-field label="How well do they drive?">
@@ -400,6 +399,7 @@ export default {
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors'
       }
 
       // send POST request
@@ -482,16 +482,22 @@ export default {
       }
     },
   },
-  mounted(){
-    fetch('https://api.team4099.com/api/teams_in_match', {method:"GET"})
-        .then(res => res.json())
-        .then((data) =>
-          Object.keys(data).forEach((match, alliances) => {
-            this.teamsInMatch[match] = {"red":[],"blue":[]};
-            Object.keys(data[match]).forEach((alliance) => data[match][alliance].forEach((team, idx) => this.teamsInMatch[match][alliance][idx]= parseInt(team.substring(3))))
-          })
-        )
-        
+  mounted() {
+    fetch('https://api.team4099.com/api/teams_in_match', { method: 'GET' })
+      .then((res) => res.json())
+      .then((data) =>
+        Object.keys(data).forEach((match, alliances) => {
+          this.teamsInMatch[match] = { red: [], blue: [] }
+          Object.keys(data[match]).forEach((alliance) =>
+            data[match][alliance].forEach(
+              (team, idx) =>
+                (this.teamsInMatch[match][alliance][idx] = parseInt(
+                  team.substring(3)
+                ))
+            )
+          )
+        })
+      )
   },
   data() {
     return {
