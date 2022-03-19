@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p class="has-text-centered is-size-5">Climb Metrics</p>
+    <p class="has-text-centered is-size-5">Attempted Climb Metrics</p>
     <div class="chart-container mb-2" style="position: relative; width: 100%">
-      <canvas id="climb-chart"></canvas>
+      <canvas id="attempted-climb-chart"></canvas>
     </div>
   </div>
 </template>
@@ -11,24 +11,24 @@
 import Chart from 'chart.js/auto'
 
 export default {
-  name: 'climbChart',
+  name: 'attemptedClimbChart',
   props: ['team_data'],
   methods: {
     render: function () {
-      const ctx = document.getElementById('climb-chart')
+      const ctx = document.getElementById('attempted-climb-chart')
       this.chart = new Chart(ctx, this.chartConfig)
       this.getData()
     },
     getData: function () {
       let datasets = [
         {
-          label: 'Climb',
+          label: 'Attempted Climb',
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(255, 159, 64)',
             'rgb(255, 205, 86)',
           ],
-          data: Object.values(this.team_data.climb),
+          data: Object.values(this.team_data.attempted_climbs),
         },
       ]
 
@@ -43,7 +43,7 @@ export default {
       chartConfig: {
         type: 'pie',
         data: {
-          labels: ['High', 'Low', 'Mid', 'No Climb', 'Traversal'],
+          labels: ['High', 'Low', 'Mid', 'Traversal'],
           datasets: [],
         },
         options: {

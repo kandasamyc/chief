@@ -410,128 +410,31 @@ export default {
         )
     },
     reset: function (event) {
-      this.scoutID = ''
-      this.matchType = 'qm'
-      this.matchNumber = 0
-      this.setNumber = 0
-      this.teamNumber = ''
-      this.alliance = ''
-      this.driverStation = ''
 
-      this.preloadedCargo = false
-      this.autoLowHub = 0
-      this.autoUpperHub = 0
-      this.autoMisses = 0
-      this.autoHumanScore = 0
-      this.autoHumanMiss = 0
-      this.taxied = 0
-      this.autoShootingZones = 0
-      this.autoNotes = ''
-
-      this.teleopLowHub = 0
-      this.teleopUpperHub = 0
-      this.teleopMisses = 0
-      this.shootingZones = []
-      this.teleopNotes = ''
-
-      this.attemptedLow = false
-      this.lowClimbTime = 0
-      this.attemptedMid = false
-      this.midClimbTime = 0
-      this.attemptedHigh = false
-      this.highClimbTime = 0
-      this.attemptedTraversal = false
-      this.traversalClimbTime = 0
-      this.finalClimbType = '0'
-
-      this.defense_time = ''
-      this.driverRating = 0
-      this.notes = ''
       document.getElementById('submitButton').classList.remove('is-success')
       document.getElementById('submitButton').classList.remove('is-danger')
       this.submitMessage = ''
     },
-    autocompleteTeam: function (event) {
-      if (
-        this.matchType != null &&
-        this.matchNumber > 0 &&
-        (this.matchType === 'qm' ||
-          this.matchType === 'f' ||
-          this.setNumber > 0) &&
-        this.alliance != '' &&
-        this.driverStation != null
-      ) {
-        try {
-          this.teamNumber =
-            this.teamsInMatch[
-              this.matchType +
-                String(this.matchNumber) +
-                (this.matchType != 'qm' ? 'm' + String(this.setNumber) : '')
-            ][this.alliance][this.driverStation - 1]
-          this.teamStatus = ''
-          this.teamMessage = ''
-        } catch (error) {
-          this.teamNumber = ''
-          this.teamStatus = 'is-danger'
-          this.teamMessage = 'No such team for the given parameters'
-        }
-      } else {
-        this.teamNumber = ''
-      }
-    },
+    
   },
   mounted(){
-    fetch('http://localhost:5051/api/teams_in_match', {method:"GET"})
+    fetch('http://localhost:5051/api/team_ids', {method:"GET"})
         .then(res => res.json())
         .then((data) =>
-          Object.keys(data).forEach((match, alliances) => {
-            this.teamsInMatch[match] = {"red":[],"blue":[]};
-            Object.keys(data[match]).forEach((alliance) => data[match][alliance].forEach((team, idx) => this.teamsInMatch[match][alliance][idx]= parseInt(team.substring(3))))
-          })
+          this.teamIds = data
         )
         
   },
   data() {
     return {
-      scoutID: '',
-      matchType: 'qm',
-      matchNumber: 0,
-      setNumber: 0,
       teamNumber: '',
-      alliance: '',
-      driverStation: '',
+      programming_language:'',
+      num_of_batteries:0,
+      robot_info:"",
+      rung_info:[],
+      other_info:"",
 
-      preloadedCargo: false,
-      autoLowHub: 0,
-      autoUpperHub: 0,
-      autoMisses: 0,
-      autoHumanScore: 0,
-      autoHumanMiss: 0,
-      taxied: false,
-      autoShootingZones: [],
-      autoNotes: '',
-
-      teleopLowHub: 0,
-      teleopUpperHub: 0,
-      teleopMisses: 0,
-      shootingZones: [],
-      teleopNotes: '',
-
-      lowClimbTime: 0,
-      attemptedLow: false,
-      midClimbTime: 0,
-      attemptedMid: false,
-      highClimbTime: 0,
-      attemptedHigh: false,
-      traversalClimbTime: 0,
-      attemptedTraversal: false,
-      finalClimbType: '0',
-
-      defenseTime: 1,
-      driverRating: 2,
-      notes: '',
-
-      teamsInMatch: {},
+      teamIds: [],
       teamMessage: '',
       teamStatus: '',
       submitMessage: '',

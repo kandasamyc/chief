@@ -42,7 +42,7 @@ export default {
       chartConfig: {
         type: 'bar',
         data: {
-          labels: ['Low Goal', 'High Goal', 'Misses'],
+          labels: ['Lower Hub', 'Upper Hub', 'Misses'],
           datasets: [],
         },
         options: {
@@ -50,7 +50,7 @@ export default {
           plugins: {
             title: {
               display: false,
-              text: 'auto Metrics',
+              text: 'Auto Metrics',
             },
             legend: {
               labels: {

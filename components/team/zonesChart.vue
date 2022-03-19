@@ -40,11 +40,13 @@ export default {
         type: 'radar',
         data: {
           labels: [
-            'Far Trench',
-            'Initiation Line',
-            'Near Trench',
-            'Rendezvous Point',
-            'Target Zone',
+            'Elsewhere',
+            'Elsewhere on Tarmac',
+            'Fender',
+            'Hangar Zone',
+            'Launchpad',
+            'Opponent',
+            'Terminal'
           ],
           datasets: [],
         },

@@ -5,7 +5,6 @@
       <p class="is-size-3 has-text-weight-medium has-text-centered">
         {{ this.$route.params.key.toUpperCase() }}
       </p>
-      <p class="is-size-4 has-text-centered mb-4">{{ timeLabel }}</p>
       <p class="has-text-centered is-size-5 mb-2">Alliances</p>
       <table class="table is-fullwidth is-striped">
         <thead>
@@ -125,32 +124,32 @@
       <div class="box">
         <AutoChart
           class="mt-2"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="autoChart"
         />
         <TeleopChart
           class="mt-5"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="teleopChart"
         />
         <MiscChart
           class="mt-5"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="miscChart"
         />
         <ZonesChart
           class="mt-5"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="zonesChart"
         />
         <ClimbChart
           class="mt-5"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="climbChart"
         />
         <AccuracyChart
           class="mt-5"
-          :team_data="currMatch.team_metrics"
+          :team_data="team_metrics"
           ref="accuracyChart"
         />
       </div>
@@ -227,33 +226,34 @@ export default {
       }
       // Do the fetching
       // For now we'll look up the data
-      var data = await fetch('https://api.team4099.com/get_match_data/2022dc305_'+this.$route.params.key).then(
+      var data = await fetch('http://localhost:5051/api/get_match_data').then(
         (response) => response.json()
       )
-
-      var currMatch = data['2022dc305_' + this.$route.params.key]['currMatch']
+      console.log('2022week0_' + this.$route.params.key)
+      var currMatch = data['2022week0_' + this.$route.params.key]['currMatch']
       currMatch['alliances'] = [
         {
           color: 'red',
           teams: currMatch['alliances']['red'].map(function (e) {
-            return e.substring(3)
+            return e
           }),
         },
         {
           color: 'blue',
           teams: currMatch['alliances']['blue'].map(function (e) {
-            return e.substring(3)
+            return e
           }),
         },
       ]
-      var currMatchData = data['2022dc305_' + this.$route.params.key]['currMatchData']
+      var currMatchData = data['2022week0_' + this.$route.params.key]['currMatchData']
       this.currMatch = currMatch
       this.currMatchData = currMatchData != undefined ? currMatchData : {}
-      console.log(currMatch)
-      console.log(currMatchData)
+      this.team_metrics = data['2022week0_' + this.$route.params.key]['team_metrics']
       if (e != undefined) {
+        console.log("here")
         if (this.$refs.oddsChart != undefined) this.$refs.oddsChart.getOdds()
         if (this.$refs.teleopChart != undefined) {
+          console.log("here2")
           this.$refs.autoChart.getData()
           this.$refs.teleopChart.getData()
           this.$refs.miscChart.getData()
@@ -279,13 +279,21 @@ export default {
   },
   data() {
     return {
-      matches: ['qm1', 'qm2'],
+      matches: [],
       currMatch: {},
       currMatchData: {},
+      team_metrics: {},
       prediction: '',
     }
   },
-  beforeMount() {
+mounted() {
+    fetch('http://localhost:5051/api/match_ids', { method: 'GET' })
+      .then((res) => res.json())
+      .then((data) =>
+        data.forEach((match) => {
+          this.matches.push(match.substring(match.indexOf("_") +1))
+        })
+      )
     this.refresh(undefined)
   },
 }

@@ -96,7 +96,6 @@ export default {
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  console.log(context)
                   let tooltip =
                     context.dataset.label + ' ' + context.label + ': '
                   tooltip += (

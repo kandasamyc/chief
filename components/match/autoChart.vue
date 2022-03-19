@@ -20,12 +20,14 @@ export default {
       this.getData()
     },
     getData: function () {
-            if (this.team_data == undefined){
+      if (this.team_data == undefined){
+        console.log("hi")
         return
       }
       let red_alliance = Object.keys(this.team_data).filter(
         (key) => this.team_data[key].alliance === 'red'
       )
+      console.log(red_alliance)
       const labelSort = function (start, end, data) {
         let start_alliance = red_alliance.indexOf(start.text) != -1 ? 1 : 0
         let end_alliance = red_alliance.indexOf(end.text) != -1 ? 1 : 0
@@ -72,7 +74,7 @@ export default {
       chartConfig: {
         type: 'bar',
         data: {
-          labels: ['Low Goal', 'High Goal', 'Misses'],
+          labels: ['Lower Hub', 'Upper Hub', 'Misses'],
           datasets: [],
         },
         options: {

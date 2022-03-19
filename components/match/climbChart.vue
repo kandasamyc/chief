@@ -37,6 +37,10 @@ export default {
         )
       )
 
+      if(red_objs.length == 0 || blue_objs.length == 0){
+        return
+      }
+
       const labelSort = function (start, end, data) {
         let start_alliance = red_alliance.indexOf(start.text) != -1 ? 1 : 0
         let end_alliance = red_alliance.indexOf(end.text) != -1 ? 1 : 0
