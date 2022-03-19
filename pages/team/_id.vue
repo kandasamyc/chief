@@ -137,7 +137,7 @@ export default {
       }
 
       // this.currTeamData = allData[this.$route.params.id]
-      fetch('http://localhost:5051/api/teamdatum/' + this.$route.params.id, {
+      fetch('https://api.team4099.com/api/teamdatum/' + this.$route.params.id, {
         method: 'GET',
       })
         .then((res) => res.json())
@@ -200,7 +200,7 @@ export default {
     }
   },
   mounted() {
-    fetch('http://localhost:5051/api/team_ids', { method: 'GET' })
+    fetch('https://api.team4099.com/api/team_ids', { method: 'GET' })
       .then((res) => res.json())
       .then((data) =>
         data.forEach((team) => {

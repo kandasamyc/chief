@@ -21,7 +21,6 @@ export default {
     },
     getData: function () {
       if (this.team_data == undefined){
-        console.log("hi")
         return
       }
       let red_alliance = Object.keys(this.team_data).filter(

@@ -347,7 +347,7 @@ export default {
       this.submitMessage = ''
       document.getElementById('submitButton').classList.toggle('is-loading')
       var data = {
-        scout_id: name,
+        scout_id: this.scoutID,
         match_key:
           '2022week0_' +
           this.matchType +
@@ -401,7 +401,7 @@ export default {
       }
 
       // send POST request
-      fetch('https://localhost:5051/add_team_datum', options)
+      fetch('https://api.team4099.com/add_team_datum', options)
         .then((res) =>
           document.getElementById('submitButton').classList.toggle('is-loading')
         )
@@ -481,7 +481,7 @@ export default {
     },
   },
   mounted(){
-    fetch('http://localhost:5051/api/teams_in_match', {method:"GET"})
+    fetch('https://api.team4099.com/api/teams_in_match', {method:"GET"})
         .then(res => res.json())
         .then((data) =>
           Object.keys(data).forEach((match, alliances) => {

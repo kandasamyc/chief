@@ -82,77 +82,8 @@
           </tr>
         </tbody>
       </table>
-      <div>
-        <p class="has-text-centered has-size-5 mb-2">Predictions</p>
-        <OddsChart :predictions="currMatchData.predictions" ref="oddsChart" />
-      </div>
     </div>
     <template v-else-if="this.$route.params.key">
-      <div class="box">
-        <p class="has-text-centered mb-3 is-size-4">Make Prediction</p>
-        <b-field>
-          <b-radio-button
-            required
-            expanded
-            v-model="prediction"
-            native-value="Red"
-            type="is-danger is-light is-outlined"
-          >
-            <span>Red</span>
-          </b-radio-button>
-
-          <b-radio-button
-            required
-            expanded
-            v-model="prediction"
-            native-value="Blue"
-            type="is-info is-light is-outlined"
-          >
-            <span>Blue</span>
-          </b-radio-button>
-        </b-field>
-        <b-field :message="validityMessage">
-          <b-button
-            v-bind:disabled="!this.$store.state.login.validity"
-            @click="submitPrediction"
-            class="is-success is-light is-outlined"
-            expanded
-            >Submit</b-button
-          >
-        </b-field>
-      </div>
-      <div class="box">
-        <AutoChart
-          class="mt-2"
-          :team_data="team_metrics"
-          ref="autoChart"
-        />
-        <TeleopChart
-          class="mt-5"
-          :team_data="team_metrics"
-          ref="teleopChart"
-        />
-        <MiscChart
-          class="mt-5"
-          :team_data="team_metrics"
-          ref="miscChart"
-        />
-        <ZonesChart
-          class="mt-5"
-          :team_data="team_metrics"
-          ref="zonesChart"
-        />
-        <ClimbChart
-          class="mt-5"
-          :team_data="team_metrics"
-          ref="climbChart"
-        />
-        <AccuracyChart
-          class="mt-5"
-          :team_data="team_metrics"
-          ref="accuracyChart"
-        />
-      </div>
     </template>
   </div>
 </template>
@@ -160,23 +91,11 @@
 <script>
 import Navigator from '../../components/Navigator.vue'
 import OddsChart from '../../components/match/oddsChart.vue'
-import TeleopChart from '../../components/match/teleopChart.vue'
-import AutoChart from '../../components/match/autoChart.vue'
-import MiscChart from '../../components/match/miscChart.vue'
-import ZonesChart from '../../components/match/zonesChart.vue'
-import ClimbChart from '../../components/match/climbChart.vue'
-import AccuracyChart from '../../components/match/accuracyChart.vue'
 
 export default {
   components: {
     Navigator,
-    OddsChart,
-    TeleopChart,
-    AutoChart,
-    MiscChart,
-    ZonesChart,
-    ClimbChart,
-    AccuracyChart,
+    OddsChart
   },
   computed: {
     timeLabel: function () {
@@ -226,10 +145,10 @@ export default {
       }
       // Do the fetching
       // For now we'll look up the data
-      var data = await fetch('http://localhost:5051/api/get_match_data').then(
+      var data = await fetch('https://api.team4099.com/api/get_match_data').then(
         (response) => response.json()
       )
-      console.log('2022week0_' + this.$route.params.key)
+      console.log(data['2022week0_' + this.$route.params.key])
       var currMatch = data['2022week0_' + this.$route.params.key]['currMatch']
       currMatch['alliances'] = [
         {
@@ -248,19 +167,9 @@ export default {
       var currMatchData = data['2022week0_' + this.$route.params.key]['currMatchData']
       this.currMatch = currMatch
       this.currMatchData = currMatchData != undefined ? currMatchData : {}
-      this.team_metrics = data['2022week0_' + this.$route.params.key]['team_metrics']
       if (e != undefined) {
         console.log("here")
         if (this.$refs.oddsChart != undefined) this.$refs.oddsChart.getOdds()
-        if (this.$refs.teleopChart != undefined) {
-          console.log("here2")
-          this.$refs.autoChart.getData()
-          this.$refs.teleopChart.getData()
-          this.$refs.miscChart.getData()
-          this.$refs.zonesChart.getData()
-          this.$refs.accuracyChart.getData()
-        }
-
         e.target.classList.remove('is-loading')
         e.target.classList.add('is-success')
       }
@@ -281,13 +190,13 @@ export default {
     return {
       matches: [],
       currMatch: {},
-      currMatchData: {},
+      currMatchData:{},
       team_metrics: {},
       prediction: '',
     }
   },
 mounted() {
-    fetch('http://localhost:5051/api/match_ids', { method: 'GET' })
+    fetch('https://api.team4099.com/api/occurred_match_ids', { method: 'GET' })
       .then((res) => res.json())
       .then((data) =>
         data.forEach((match) => {

@@ -24,7 +24,7 @@
 <script>
 export default {
   mounted() {
-    fetch("http://localhost:5051/api/get_all_scouts", {method:"GET"})
+    fetch("https://api.team4099.com/api/get_all_scouts", {method:"GET"})
     .then(res => res.json())
     .then(data => Object.keys(data).forEach(scout => {
       this.validNames.push(scout)
