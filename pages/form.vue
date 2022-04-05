@@ -304,7 +304,7 @@
           ticks
           grouped
           :tooltip="false"
-          :min="1"
+          :min="0"
           :max="5"
         >
         </b-slider>
@@ -335,7 +335,7 @@
           ticks
           grouped
           :tooltip="false"
-          :min="1"
+          :min="0"
           :max="5"
         >
         </b-slider>
