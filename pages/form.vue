@@ -137,12 +137,12 @@
       <b-field label="Auto Shooting Zones" grouped>
         <b-select v-model="autoShootingZones" multiple expanded>
           <option value="0">Fender</option>
-          <option value="1">Elsewhere in Tarmac</option>
-          <option value="2">Launchpad</option>
-          <option value="3">Terminal</option>
-          <option value="4">Hangar Zone</option>
-          <option value="5">Elsewhere</option>
-          <option value="6">Opponent Tarmac</option>
+          <option value="1">Opposing Fender</option>
+          <option value="2">Tarmac</option>
+          <option value="3">Opposing Tarmac</option>
+          <option value="4">Launchpad</option>
+          <option value="5">Terminal</option>
+          <option value="6">Elsewhere</option>
         </b-select>
       </b-field>
       <b-field label="Auto Notes">
@@ -184,12 +184,12 @@
       <b-field label="Shooting Zones" grouped>
         <b-select v-model="shootingZones" multiple expanded>
           <option value="0">Fender</option>
-          <option value="1">Elsewhere in Tarmac</option>
-          <option value="2">Launchpad</option>
-          <option value="3">Terminal</option>
-          <option value="4">Hangar Zone</option>
-          <option value="5">Elsewhere</option>
-          <option value="6">Opponent Tarmac</option>
+          <option value="1">Opposing Fender</option>
+          <option value="2">Tarmac</option>
+          <option value="3">Opposing Tarmac</option>
+          <option value="4">Launchpad</option>
+          <option value="5">Terminal</option>
+          <option value="6">Elsewhere</option>
         </b-select>
       </b-field>
       <b-field label="Teleop Notes">
@@ -279,7 +279,7 @@
       </p>
       <b-field label="How much do they play defense?">
         <b-slider
-          v-model="defenseTime"
+          v-model="defensePct"
           label="medium"
           indicator
           ticks
@@ -311,7 +311,7 @@
       </b-field>
             <b-field label="How much were they playing through defense?">
         <b-slider
-          v-model="defensePct"
+          v-model="counterDefensePct"
           label="medium"
           indicator
           ticks
@@ -440,9 +440,9 @@ export default {
         traversal_climb_time: this.traversalClimbTime,
         final_climb_type: this.finalClimbType,
 
-        defense_time: this.defenseTime /4.0,
+        defense_pct: this.defensePct /4.0,
         defense_rating: this.defenseRating,
-        defense_pct: this.defensePct / 4.0,
+        counter_defense_pct: this.counterDefensePct / 4.0,
         counter_defense_rating: this.counterDefenseRating,
         driver_rating: this.driverRating,
         notes: this.notes,
@@ -503,9 +503,9 @@ export default {
       this.traversalClimbTime = 0
       this.finalClimbType = '0'
 
-      this.defenseTime = 0
-      this.defenseRating = 0
       this.defensePct = 0
+      this.defenseRating = 0
+      this.counterDefensePct = 0
       this.counterDefenseRating = 0
       this.driverRating = 0
       this.notes = ''
@@ -595,9 +595,9 @@ export default {
       attemptedTraversal: false,
       finalClimbType: '0',
 
-      defenseTime: 0,
-      defenseRating: 1,
       defensePct: 0,
+      defenseRating: 1,
+      counterDefensePct: 0,
       counterDefenseRating: 1,
       driverRating: 2,
       notes: '',
