@@ -278,13 +278,67 @@
         Miscellaneous
       </p>
       <b-field label="How much do they play defense?">
-        <b-select v-model="defenseTime" expanded>
-          <option value="0">0%</option>
-          <option value="1">25%</option>
-          <option value="2">50%</option>
-          <option value="3">75%</option>
-          <option value="4">100%</option>
-        </b-select>
+        <b-slider
+          v-model="defenseTime"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :tooltip="false"
+          :custom-formatter="
+            (val) => {
+              return val * 25 + '%'
+            }
+          "
+          :min="0"
+          :max="4"
+        >
+        </b-slider>
+      </b-field>
+      
+      <b-field label="Defense Rating">
+        <b-slider
+          v-model="defenseRating"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :tooltip="false"
+          :min="1"
+          :max="5"
+        >
+        </b-slider>
+      </b-field>
+            <b-field label="How much were they playing through defense?">
+        <b-slider
+          v-model="defensePct"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :tooltip="false"
+          :custom-formatter="
+            (val) => {
+              return val * 25 + '%'
+            }
+          "
+          :min="0"
+          :max="4"
+        >
+        </b-slider>
+      </b-field>
+      <b-field label="Counter Defense Rating">
+        <b-slider
+          v-model="counterDefenseRating"
+          label="medium"
+          indicator
+          ticks
+          grouped
+          :tooltip="false"
+          :min="1"
+          :max="5"
+        >
+        </b-slider>
       </b-field>
       <b-field label="How well do they drive?">
         <b-select v-model="driverRating" expanded>
@@ -386,7 +440,10 @@ export default {
         traversal_climb_time: this.traversalClimbTime,
         final_climb_type: this.finalClimbType,
 
-        defense_time: this.defenseTime,
+        defense_time: this.defenseTime /4.0,
+        defense_rating: this.defenseRating,
+        defense_pct: this.defensePct / 4.0,
+        counter_defense_rating: this.counterDefenseRating,
         driver_rating: this.driverRating,
         notes: this.notes,
       }
@@ -397,9 +454,9 @@ export default {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-    'Accept': 'application/json, text/plain, */*',
-    'Content-Type': 'application/json'
-      },
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
       }
 
       // send POST request
@@ -446,7 +503,10 @@ export default {
       this.traversalClimbTime = 0
       this.finalClimbType = '0'
 
-      this.defense_time = ''
+      this.defenseTime = 0
+      this.defenseRating = 0
+      this.defensePct = 0
+      this.counterDefenseRating = 0
       this.driverRating = 0
       this.notes = ''
       document.getElementById('submitButton').classList.remove('is-success')
@@ -535,7 +595,10 @@ export default {
       attemptedTraversal: false,
       finalClimbType: '0',
 
-      defenseTime: 1,
+      defenseTime: 0,
+      defenseRating: 1,
+      defensePct: 0,
+      counterDefenseRating: 1,
       driverRating: 2,
       notes: '',
 
