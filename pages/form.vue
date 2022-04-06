@@ -596,9 +596,9 @@ export default {
       finalClimbType: '0',
 
       defensePct: 0,
-      defenseRating: 1,
+      defenseRating: 0,
       counterDefensePct: 0,
-      counterDefenseRating: 1,
+      counterDefenseRating: 0,
       driverRating: 2,
       notes: '',
 
