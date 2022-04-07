@@ -404,7 +404,7 @@ export default {
       var data = {
         scout_id: this.name,
         match_key:
-          '2022dc319_' +
+          '2022chcmp_' +
           this.matchType +
           this.matchNumber +
           (this.matchType != 'qm' && this.matchType != 'f'
